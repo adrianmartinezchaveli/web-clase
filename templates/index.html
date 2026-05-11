@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="hero">
-  <h1>Elige un tema para practicar</h1>
-  <p>Cada test contiene 14 preguntas seleccionadas al azar de un banco específico. Estilo del examen de diciembre.</p>
+  <h1>Practica para el examen de SySM</h1>
+  <p>Tests de <strong>14 preguntas aleatorias</strong> por tema, en el estilo del examen de diciembre.
+  Inicia sesión para guardar tus puntuaciones y competir en el ranking global.</p>
 </section>
+
+<div class="section-h">
+  <h2>Temas disponibles</h2>
+  <span class="hint">{{ topics|length }} bloques · 600 preguntas en total</span>
+</div>
+
 <section class="grid">
   {% for t in topics %}
   <a class="card" href="{{ url_for('test_view', topic_id=t.id) }}">
@@ -11,7 +18,7 @@
       <h2>{{ t.name }}</h2>
       <span class="count">{{ counts[t.id] }} preguntas</span>
     </div>
-    <div class="card-cta">Comenzar test →</div>
+    <div class="card-cta">Comenzar test</div>
   </a>
   {% endfor %}
 </section>

@@ -66,8 +66,14 @@
   }
 
   function updateProgress() {
-    progressEl.textContent = `Respondidas ${answered} / ${questions.length}`;
-    scoreLiveEl.textContent = answered > 0 ? `Aciertos: ${correct}` : "";
+    progressEl.innerHTML = `Respondidas <strong>${answered} / ${questions.length}</strong>`;
+    const wrap = document.getElementById("score-live-wrap");
+    if (answered > 0) {
+      scoreLiveEl.innerHTML = `Aciertos: <strong>${correct}</strong>`;
+      if (wrap) wrap.style.display = "";
+    } else if (wrap) {
+      wrap.style.display = "none";
+    }
   }
 
   function showResult() {

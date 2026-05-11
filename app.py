@@ -106,6 +106,11 @@ def index():
     return render_template("index.html", topics=TOPICS, counts=counts)
 
 
+@app.route("/healthz")
+def healthz():
+    return {"ok": True}, 200
+
+
 @app.route("/test/<topic_id>")
 def test_view(topic_id):
     topic = next((t for t in TOPICS if t["id"] == topic_id), None)
@@ -237,7 +242,13 @@ def logout():
 
 # ── Init ──────────────────────────────────────────────────
 with app.app_context():
-    db.create_all()
+    try:
+        db.create_all()
+        app.logger.info("Database initialized.")
+    except Exception as e:
+        # Do not crash the app if the DB is not reachable at startup —
+        # allow the public pages to keep working.
+        app.logger.warning("DB init skipped: %s", e)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

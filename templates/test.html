@@ -4,8 +4,16 @@
   <a href="{{ url_for('index') }}" class="back">← Volver al menú</a>
   <h1>{{ topic.name }}</h1>
   <div class="meta">
-    <span id="progress">Pregunta 1 / 14</span>
-    <span id="score-live"></span>
+    <span class="meta-pill"><span id="progress">Respondidas <strong>0 / 14</strong></span></span>
+    <span class="meta-pill" id="score-live-wrap" style="display:none">
+      <span id="score-live"></span>
+    </span>
+    {% if not current_user.is_authenticated %}
+    <span class="meta-pill">
+      <a href="{{ url_for('login') }}" style="color: var(--accent-2); text-decoration: none;">Inicia sesión</a>
+      para guardar tu puntuación
+    </span>
+    {% endif %}
   </div>
 </section>
 
