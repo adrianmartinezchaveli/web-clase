@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Ranking · SySM Quiz{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>🏆 Ranking global</h1>
+  <p>Mejores puntuaciones por tema. Se muestra el mejor intento de cada usuario.</p>
+</section>
+
+<div class="lb-tabs">
+  {% for t in topics %}
+  <button class="lb-tab {% if loop.first %}active{% endif %}"
+          data-topic="{{ t.id }}">{{ t.name }}</button>
+  {% endfor %}
+</div>
+
+{% for t in topics %}
+<div class="lb-panel {% if not loop.first %}hidden{% endif %}" id="lb-{{ t.id }}">
+  {% set rows = boards[t.id] %}
+  {% if rows %}
+  <table class="lb-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Usuario</th>
+        <th>Aciertos</th>
+        <th>%</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr class="{% if loop.index == 1 %}lb-gold{% elif loop.index == 2 %}lb-silver{% elif loop.index == 3 %}lb-bronze{% endif %}">
+        <td class="lb-pos">{{ loop.index }}</td>
+        <td class="lb-user">
+          {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% endif %}
+          {{ r.username }}
+        </td>
+        <td>{{ r.correct }} / 14</td>
+        <td><strong>{{ r.pct }}%</strong></td>
+        <td>
+          <div class="lb-bar-wrap">
+            <div class="lb-bar" style="width:{{ r.pct }}%"></div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="lb-empty">Todavía nadie ha completado un test de este tema. ¡Sé el primero!</div>
+  {% endif %}
+</div>
+{% endfor %}
+
+<script>
+document.querySelectorAll(".lb-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".lb-tab").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".lb-panel").forEach(p => p.classList.add("hidden"));
+    btn.classList.add("active");
+    document.getElementById("lb-" + btn.dataset.topic).classList.remove("hidden");
+  });
+});
+</script>
+{% endblock %}

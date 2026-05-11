@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="test-header">
+  <a href="{{ url_for('index') }}" class="back">← Volver al menú</a>
+  <h1>{{ topic.name }}</h1>
+  <div class="meta">
+    <span id="progress">Pregunta 1 / 14</span>
+    <span id="score-live"></span>
+  </div>
+</section>
+
+<section id="quiz" class="quiz"></section>
+
+<section id="result" class="result hidden">
+  <h2>Resultado final</h2>
+  <p id="result-summary"></p>
+  <div class="actions">
+    <button id="retry" class="btn primary">Repetir con nuevas preguntas</button>
+    <a href="{{ url_for('index') }}" class="btn">Cambiar de tema</a>
+  </div>
+  <div id="review" class="review"></div>
+</section>
+
+<script>
+const TOPIC_ID = "{{ topic.id }}";
+const USER_LOGGED_IN = {{ 'true' if current_user.is_authenticated else 'false' }};
+</script>
+<script src="{{ url_for('static', filename='quiz.js') }}"></script>
+{% endblock %}

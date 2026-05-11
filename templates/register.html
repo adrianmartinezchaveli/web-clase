@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Registro · SySM Quiz{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <h1>Crear cuenta</h1>
+    {% if error %}
+    <div class="alert alert-err">{{ error }}</div>
+    {% endif %}
+    <form method="post" autocomplete="on">
+      <label class="field-label" for="username">Usuario <small>(mín. 3 caracteres)</small></label>
+      <input class="field-input" id="username" name="username" type="text"
+             autocomplete="username" required autofocus minlength="3">
+      <label class="field-label" for="password">Contraseña <small>(mín. 6 caracteres)</small></label>
+      <input class="field-input" id="password" name="password" type="password"
+             autocomplete="new-password" required minlength="6">
+      <label class="field-label" for="confirm">Confirmar contraseña</label>
+      <input class="field-input" id="confirm" name="confirm" type="password"
+             autocomplete="new-password" required minlength="6">
+      <button class="btn primary full-width" type="submit">Registrarse</button>
+    </form>
+    <p class="auth-footer">¿Ya tienes cuenta?
+      <a href="{{ url_for('login') }}">Inicia sesión</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
